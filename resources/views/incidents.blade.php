@@ -12,10 +12,10 @@
             </div>
             <div class="col-10 py-4">
                 <h2 class="mb-4 fw-bold" style="color: #1F2310;">Incident Records</h2>
-                <form action="{{ url('/display') }}" method="GET" class="row g-2 mb-4">
+                <form action="{{ route('incidents.index') }}" method="GET" class="row g-2 mb-4">
                     <div class="col-10">
                         <input type="text" name="search" class="form-control" style="border-color: #677233;"
-                               placeholder="Search by ID or Resident Name" value="{{ request('search') }}">
+                               placeholder="Search by ID or Resident Name..." value="{{ request('search') }}">
                     </div>
                     <div class="col-2">
                         <button type="submit" class="btn w-100" style="background-color: #454C28; border-color: #454C28; color: white;">Search</button>
