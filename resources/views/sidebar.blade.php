@@ -1,46 +1,66 @@
-<div class="d-flex flex-column p-3 justify-content-between" style="background-color: #3C4225; min-height: 100vh; color: white;">
-    <div>
-        <a href="/" class="d-flex align-items-center mb-3 text-decoration-none" style="color: white;">
-            <span class="fs-4 fw-bold">Barangay</span>
-        </a>
-        <hr style="border-color: #677233;">
-        <ul class="nav nav-pills flex-column mb-auto">
-            <li>
-                <a href="{{ route('incidents.index') }}" class="nav-link @if(request()->routeIs('incidents.*')) active @endif"
-                   style="color: white; @if(request()->routeIs('incidents.*')) background-color: #1F2310; @else background-color: transparent; @endif">
-                    Incidents
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('projects.index') }}" class="nav-link @if(request()->routeIs('projects.*')) active @endif"
-                   style="color: white; @if(request()->routeIs('projects.*')) background-color: #1F2310; @else background-color: transparent; @endif">
-                    Projects
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('officials.index') }}" class="nav-link @if(request()->routeIs('officials.*')) active @endif"
-                   style="color: white; @if(request()->routeIs('officials.*')) background-color: #1F2310; @else background-color: transparent; @endif">
-                    Officials
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('residents.index') }}" class="nav-link @if(request()->routeIs('residents.*')) active @endif"
-                   style="color: white; @if(request()->routeIs('residents.*')) background-color: #1F2310; @else background-color: transparent; @endif">
-                    Residents
-                </a>
-            </li>
-        </ul>
-        <hr style="border-color: #677233;">
-    </div>
+<div class="d-flex flex-column flex-shrink-0 p-3 text-white vh-100" style="background-color: #3C4225; width: 280px; max-width: 100%;">
+    <!-- Header -->
+    <a href="/" class="d-flex align-items-center mb-3 mb-md-0 text-white text-decoration-none">
+        <span class="fs-4 fw-bold">Barangay</span>
+    </a>
 
-    <div class="d-flex align-items-center mt-auto p-2 rounded" style="background-color: #1F2310;">
+    <hr class="mb-3" style="border-color: #677233; opacity: 1;">
+
+    <!-- Navigation -->
+    <ul class="nav nav-pills flex-column mb-auto">
+        <li class="nav-item">
+            <a href="{{ route('incidents.index') }}"
+               class="nav-link text-white @if(request()->routeIs('incidents.*')) active @endif"
+               @if(request()->routeIs('incidents.*'))
+                   style="background-color: #1F2310;"
+                   aria-current="page"
+               @endif>
+                Incidents
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('projects.index') }}"
+               class="nav-link text-white @if(request()->routeIs('projects.*')) active @endif"
+               @if(request()->routeIs('projects.*'))
+                   style="background-color: #1F2310;"
+                   aria-current="page"
+               @endif>
+                Projects
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('officials.index') }}"
+               class="nav-link text-white @if(request()->routeIs('officials.*')) active @endif"
+               @if(request()->routeIs('officials.*'))
+                   style="background-color: #1F2310;"
+                   aria-current="page"
+               @endif>
+                Officials
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="{{ route('residents.index') }}"
+               class="nav-link text-white @if(request()->routeIs('residents.*')) active @endif"
+               @if(request()->routeIs('residents.*'))
+                   style="background-color: #1F2310;"
+                   aria-current="page"
+               @endif>
+                Residents
+            </a>
+        </li>
+    </ul>
+
+    <hr class="mb-3" style="border-color: #677233; opacity: 1;">
+
+    <!-- User Profile -->
+    <div class="d-flex align-items-center p-2 rounded" style="background-color: #1F2310;">
         <img src="https://via.placeholder.com/40" alt="Profile" class="rounded-circle me-2" width="40" height="40">
-        <div>
+        <div class="flex-grow-1">
             <div class="fw-semibold">John Manika</div>
-            <small class="text-light">Admin</small>
+            <small class="text-white-50">Admin</small>
         </div>
-        <a href="#" class="ms-auto" style="color: #677233;" title="">
-            <i class="bi bi-box-arrow-right"></i>
+        <a href="#" class="text-decoration-none ms-2" style="color: #677233;" title="Logout">
+            <i class="bi bi-box-arrow-right fs-5"></i>
         </a>
     </div>
 </div>
