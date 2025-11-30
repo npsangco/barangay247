@@ -48,6 +48,16 @@
                 Residents
             </a>
         </li>
+        <li class="nav-item">
+            <a href="{{ route('households.index') }}"
+               class="nav-link text-white @if(request()->routeIs('households.*')) active @endif"
+               @if(request()->routeIs('households.*'))
+                   style="background-color: #1F2310;"
+                   aria-current="page"
+               @endif>
+                Households
+            </a>
+        </li>
     </ul>
 
     <hr class="mb-3" style="border-color: #677233; opacity: 1;">
