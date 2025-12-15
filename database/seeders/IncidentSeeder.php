@@ -24,15 +24,6 @@ class IncidentSeeder extends Seeder
             'updated_at' => Carbon::now(),
         ]);
         Incident::create([
-            'resident_id' => 1,
-            'official_id' => 1,
-            'incident_type' => 'Noise Complaint',
-            'incident_details' => 'Loud music and shouting reported from unit 10B after 11 PM.',
-            'date_reported' => Carbon::parse('2025-10-25')->toDateString(),
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ]);
-        Incident::create([
             'resident_id' => 2,
             'official_id' => 2,
             'incident_type' => 'Petty Theft',

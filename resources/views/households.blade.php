@@ -1,68 +1,70 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Households</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body style="background-color: #F8F8ED;">
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-2 p-0">
-            @include('sidebar')
-        </div>
-        <div class="col-10 py-4">
-            <h2 class="mb-4 fw-bold" style="color: #1F2310;">Household List</h2>
-            <form action="/households" method="get" class="row g-2 mb-4">
-                <div class="col-10">
-                    <input type="search" name="search" class="form-control" style="border-color: #677233;"
-                           placeholder="Search Households..." value="{{ request('search') }}">
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Households') }}
+        </h2>
+    </x-slot>
+
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6">
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Household List</h2>
+
+                    <form action="/households" method="get" class="mb-6">
+                        <div class="flex gap-2">
+                            <input type="search" name="search" class="flex-1 rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600"
+                                   placeholder="Search Households..." value="{{ request('search') }}">
+                            <button type="submit" class="px-4 py-2 bg-gray-800 dark:bg-gray-200 text-white dark:text-gray-800 rounded-md hover:bg-gray-700 dark:hover:bg-gray-300">Search</button>
+                        </div>
+                    </form>
+
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                            <thead class="bg-gray-50 dark:bg-gray-700">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Household ID</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Household Head</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Address</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Contact Information</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Number of Members</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Image</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+                                @forelse($households as $household)
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ $household->household_id }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ $household->household_head }}</td>
+                                    <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ $household->address }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ $household->contact_information }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ $household->number_of_members }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">
+                                        @if($household->image_path)
+                                            <img src="{{ asset('storage/'.$household->image_path) }}" alt="Household Image"
+                                                 class="h-20 w-20 object-cover rounded">
+                                        @else
+                                            <span class="text-gray-500 dark:text-gray-400">No Image</span>
+                                        @endif
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                        <form action="{{ route('households.delete', $household->household_id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this household?');">
+                                            @csrf
+                                            <button type="submit" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 font-medium">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400">No households found.</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-                <div class="col-2">
-                    <button type="submit" class="btn w-100" style="background-color: #454C28; border-color: #454C28; color: white;">Search</button>
-                </div>
-            </form>
-            <div class="table-responsive">
-                <table class="table table-bordered" style="border-color: #677233;">
-                    <thead style="background-color: #1F2310;">
-                        <tr>
-                            <th style="color: black;">Household ID</th>
-                            <th style="color: black;">Household Head</th>
-                            <th style="color: black;">Address</th>
-                            <th style="color: black;">Contact Information</th>
-                            <th style="color: black;">Number of Members</th>
-                            <th style="color: black;">Household Image</th>
-                        </tr>
-                    </thead>
-                    <tbody style="background-color: white;">
-                        @forelse($households as $household)
-                        <tr>
-                            <td style="color: #1F2310;">{{ $household->household_id }}</td>
-                            <td style="color: #1F2310;">{{ $household->household_head }}</td>
-                            <td style="color: #1F2310;">{{ $household->address }}</td>
-                            <td style="color: #1F2310;">{{ $household->contact_information }}</td>
-                            <td style="color: #1F2310;">{{ $household->number_of_members }}</td>
-                            <td>
-                                @if($household->image_path)
-                                    <img src="{{ asset('storage/'.$household->image_path) }}" alt="Household Image"
-                                         class="img-thumbnail" style="height: 100px; width: 100px; object-fit: cover;">
-                                @else
-                                    <span style="color: #677233;">No Image</span>
-                                @endif
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="6" class="text-center" style="color: #677233;">No households found.</td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+</x-app-layout>

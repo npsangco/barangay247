@@ -7,10 +7,10 @@ use Illuminate\Database\Eloquent\Model;
 class Incident extends Model
 {
     protected $table =  "tbl_incidents";
-    protected $primaryKey = 'incident_id';
+    protected $primaryKey = 'report_id';
 
     protected $fillable = [
-        'incident_id',
+        'report_id',
         'resident_id',
         'official_id',
         'incident_type',

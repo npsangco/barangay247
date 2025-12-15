@@ -25,4 +25,11 @@ class IncidentController extends Controller
           
         return view('incidents', compact('incidents'));
     }
+
+    public function delete($id)
+    {
+        $incident = Incident::findOrFail($id);
+        $incident->delete();
+        return redirect()->back()->with('success', 'Incident deleted successfully.');
+    }
 }

@@ -24,4 +24,10 @@ class OfficialController extends Controller
         return view('officials', compact('officials'));
     }
 
+    public function delete($id)
+    {
+        $official = Official::findOrFail($id);
+        $official->delete();
+        return redirect()->back()->with('success', 'Official deleted successfully.');
+    }
 }

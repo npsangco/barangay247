@@ -51,4 +51,11 @@ class HouseholdController extends Controller
 
         return view('households', compact('households'));
     }
+
+    public function delete($id)
+    {
+        $household = Households::findOrFail($id);
+        $household->delete();
+        return redirect()->back()->with('success', 'Household deleted successfully.');
+    }
 }

@@ -23,4 +23,11 @@ class ResidentController extends Controller
 
         return view('residents', compact('residents'));
     }
+
+    public function delete($id)
+    {
+        $resident = Resident::findOrFail($id);
+        $resident->delete();
+        return redirect()->back()->with('success', 'Resident deleted successfully.');
+    }
 }
