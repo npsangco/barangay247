@@ -3,11 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
     protected $table =  "tbl_projects";
+    use SoftDeletes;
     protected $primaryKey = 'project_id';
 
     protected $fillable = [
@@ -21,5 +23,7 @@ class Project extends Model
     ];
 
     public $timestamps = true;
+
+    
 
 }

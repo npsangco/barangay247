@@ -64,9 +64,9 @@
                                 @endif
                             </td>
                             <td>
-                                <form action="{{ '/projects/delete/' . $project->project_id }}" method="post">
+                                <form action="{{ '/projects/restore/' . $project->project_id }}" method="post">
                                     @csrf
-                                    <button class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this project?')">Delete</button>
+                                    <button class="btn btn-success" onclick="return confirm('Are you sure you want to restore this project?')">Restore</button>
                                 </form>
                             </td>
                         </tr>

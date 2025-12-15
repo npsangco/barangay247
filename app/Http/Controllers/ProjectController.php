@@ -35,7 +35,7 @@ class ProjectController extends Controller
                 ->orWhere('project_description', 'like', "%$search%")
                 ->orWhere('start_date', 'like', "%$search%")
                 ->orWhere('end_date', 'like', "%$search%")
-                ->orWhere('project_status', 'like', "%$search%")
+                ->orWhere('deleted_at', 'like', "%$search%")
                 ->get();
         } else {
             $dgtProjects = Project::all();
@@ -43,4 +43,37 @@ class ProjectController extends Controller
 
         return view('projects', compact('dgtProjects'));
     }
+
+    public function delete($id){
+        $project = Project::findOrFail($id);
+        $project->delete();
+        return redirect()->back();
+    }
+
+    public function restore($id){
+        $project = Project::onlyTrashed()->find($id);
+        $project->restore();
+        return redirect()->back();
+    }
+
+    public function viewTrashed(Request $request){
+        $search = $request->input('search');
+
+        if ($search) {
+            $dgtProjects = Project::where('project_id', 'like', "%$search%")
+                ->orWhere('project_name', 'like', "%$search%")
+                ->orWhere('project_description', 'like', "%$search%")
+                ->orWhere('start_date', 'like', "%$search%")
+                ->orWhere('end_date', 'like', "%$search%")
+                ->orWhere('deleted_at', 'like', "%$search%")
+                ->get();
+        } else {
+            //$dgtProjects = Project::all();
+            $dgtProjects = Project::onlyTrashed()->get();
+        }
+
+        return view('projects_trashed', compact('dgtProjects'));
+    }
+
+
 }
