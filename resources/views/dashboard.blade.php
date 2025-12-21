@@ -9,12 +9,58 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-6">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <h3 class="text-lg font-semibold mb-2">{{ __("Welcome to Barangay Management System") }}</h3>
-                    <p>{{ __("You're logged in! Select a module below to manage barangay data.") }}</p>
+                    <div class="flex justify-between items-center">
+                        <div>
+                            <h3 class="text-lg font-semibold mb-2">{{ __("Welcome to Barangay Management System") }}</h3>
+                            <p>{{ __("You're logged in as ") }} <span class="font-semibold">{{ Auth::user()->name }}</span></p>
+                        </div>
+                        <div>
+                            @if(Auth::user()->isAdmin())
+                                <span class="px-4 py-2 bg-red-500 text-white rounded-full text-sm font-semibold">Admin</span>
+                            @elseif(Auth::user()->isEmployee())
+                                <span class="px-4 py-2 bg-blue-500 text-white rounded-full text-sm font-semibold">Employee</span>
+                            @else
+                                <span class="px-4 py-2 bg-green-500 text-white rounded-full text-sm font-semibold">Resident</span>
+                            @endif
+                        </div>
+                    </div>
                 </div>
             </div>
 
+            @if(Auth::user()->isAdmin() || Auth::user()->isEmployee())
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                @if(Auth::user()->isAdmin())
+                <!-- Users Module (Admin Only) -->
+                <a href="{{ route('users.index') }}" class="block">
+                    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg hover:shadow-lg transition-shadow duration-300">
+                        <div class="p-6">
+                            <div class="flex items-center mb-3">
+                                <svg class="w-8 h-8 text-indigo-600 dark:text-indigo-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                                </svg>
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Users</h3>
+                            </div>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">Manage user accounts and permissions</p>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Logs Module (Admin Only) -->
+                <a href="{{ route('logs.index') }}" class="block">
+                    <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg hover:shadow-lg transition-shadow duration-300">
+                        <div class="p-6">
+                            <div class="flex items-center mb-3">
+                                <svg class="w-8 h-8 text-orange-600 dark:text-orange-400 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                                </svg>
+                                <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100">Logs</h3>
+                            </div>
+                            <p class="text-gray-600 dark:text-gray-400 text-sm">View system activity logs</p>
+                        </div>
+                    </div>
+                </a>
+                @endif
+
                 <!-- Projects Module -->
                 <a href="{{ route('projects.index') }}" class="block">
                     <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg hover:shadow-lg transition-shadow duration-300">
@@ -90,6 +136,19 @@
                     </div>
                 </a>
             </div>
+            @else
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+                    <h3 class="text-lg font-semibold mb-4">Resident Access</h3>
+                    <p class="mb-4">As a resident, you have limited access. You can:</p>
+                    <ul class="list-disc list-inside space-y-2">
+                        <li>View your profile and update your information</li>
+                        <li>View barangay projects and news</li>
+                        <li>Report incidents (Coming soon)</li>
+                    </ul>
+                </div>
+            </div>
+            @endif
         </div>
     </div>
 </x-app-layout>

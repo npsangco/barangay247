@@ -2,21 +2,48 @@
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
-        <!-- Name -->
         <div>
-            <x-input-label for="name" :value="__('Name')" />
+            <x-input-label for="name" :value="__('Full Name')" />
             <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
             <x-input-error :messages="$errors->get('name')" class="mt-2" />
         </div>
 
-        <!-- Email Address -->
+        <div class="mt-4">
+            <x-input-label for="date_of_birth" :value="__('Date of Birth')" />
+            <x-text-input id="date_of_birth" class="block mt-1 w-full" type="date" name="date_of_birth" :value="old('date_of_birth')" required />
+            <x-input-error :messages="$errors->get('date_of_birth')" class="mt-2" />
+        </div>
+
+        <div class="mt-4">
+            <x-input-label for="gender" :value="__('Gender')" />
+            <select id="gender" name="gender" required
+                    class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                <option value="">Select Gender</option>
+                <option value="Male" {{ old('gender') == 'Male' ? 'selected' : '' }}>Male</option>
+                <option value="Female" {{ old('gender') == 'Female' ? 'selected' : '' }}>Female</option>
+                <option value="Other" {{ old('gender') == 'Other' ? 'selected' : '' }}>Other</option>
+            </select>
+            <x-input-error :messages="$errors->get('gender')" class="mt-2" />
+        </div>
+
+        <div class="mt-4">
+            <x-input-label for="contact_information" :value="__('Contact Number')" />
+            <x-text-input id="contact_information" class="block mt-1 w-full" type="text" name="contact_information" :value="old('contact_information')" required placeholder="09XXXXXXXXX" />
+            <x-input-error :messages="$errors->get('contact_information')" class="mt-2" />
+        </div>
+
+        <div class="mt-4">
+            <x-input-label for="address" :value="__('Address')" />
+            <x-text-input id="address" class="block mt-1 w-full" type="text" name="address" :value="old('address')" required />
+            <x-input-error :messages="$errors->get('address')" class="mt-2" />
+        </div>
+
         <div class="mt-4">
             <x-input-label for="email" :value="__('Email')" />
             <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
-        <!-- Password -->
         <div class="mt-4">
             <x-input-label for="password" :value="__('Password')" />
 
@@ -28,7 +55,6 @@
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
-        <!-- Confirm Password -->
         <div class="mt-4">
             <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
 

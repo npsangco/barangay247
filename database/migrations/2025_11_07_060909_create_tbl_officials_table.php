@@ -14,9 +14,9 @@ return new class extends Migration
     {
         Schema::create('tbl_officials', function (Blueprint $table) {
             $table->id('official_id');
-            $table->string('official_name');
-            $table->string('position');
-            $table->bigInteger('contact_information');
+            $table->string('official_name', 100);
+            $table->string('position', 100);
+            $table->string('contact_information', 20);
             $table->timestamps();
         });
     }

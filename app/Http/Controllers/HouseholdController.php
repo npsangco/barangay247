@@ -24,13 +24,15 @@ class HouseholdController extends Controller
 
         $imagePath = $request->hasFile('pic') ? $request->file('pic')->store('household_images', 'public') : null;
 
-        Households::create([
+        $household = Households::create([
             'household_head' => $validated['head'],
             'address' => $validated['address'],
             'contact_information' => $validated['contact'],
             'number_of_members' => $validated['members'],
             'image_path' => $imagePath,
         ]);
+
+        log_activity('Create', 'Households', 'Registered household: ' . $household->household_head);
 
         return redirect()->route('households.index')->with('success', 'Household Registered Successfully!');
     }

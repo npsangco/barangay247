@@ -13,8 +13,8 @@ return new class extends Migration {
         Schema::create('tbl_households', function (Blueprint $table) {
             $table->id('household_id');
             $table->string('household_head', 100);
-            $table->string('address'); 
-            $table->string('contact_information', 100);
+            $table->string('address', 255);
+            $table->string('contact_information', 20);
             $table->unsignedSmallInteger('number_of_members')->default(1);
             $table->string('image_path')->nullable();
             $table->timestamps();

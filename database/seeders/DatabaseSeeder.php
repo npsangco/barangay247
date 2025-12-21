@@ -22,11 +22,12 @@ class DatabaseSeeder extends Seeder
         //     'email' => 'test@example.com',
         // ]);
 
-        $this -> call(ProjectSeeder::class);
-        $this -> call(IncidentSeeder::class);
+        $this -> call(AdminSeeder::class);
         $this -> call(OfficialSeeder::class);
         $this -> call(ResidentSeeder::class);
+        $this -> call(ProjectSeeder::class);
         $this -> call(HouseholdSeeder::class);
+        $this -> call(IncidentSeeder::class);
 
     }
 }

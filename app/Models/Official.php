@@ -17,4 +17,9 @@ class Official extends Model
     ];
 
     public $timestamps = true;
+
+    public function user()
+    {
+        return $this->hasOne(User::class, 'official_id', 'official_id');
+    }
 }

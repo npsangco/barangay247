@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('tbl_incidents', function (Blueprint $table){
             $table -> id('report_id');
-            $table -> foreignId('resident_id')->constrained('tbl_residents');
-            $table -> foreignId('official_id')->constrained('tbl_officials');
-            $table -> string('incident_type');
-            $table -> string('incident_details');
+            $table -> foreignId('resident_id')->constrained('tbl_residents', 'resident_id')->onDelete('cascade');
+            $table -> foreignId('official_id')->nullable()->constrained('tbl_officials', 'official_id')->onDelete('set null');
+            $table -> string('incident_type', 100);
+            $table -> text('incident_details');
             $table -> date('date_reported');
             $table -> timestamps();
         });

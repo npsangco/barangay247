@@ -22,6 +22,8 @@ class ProjectController extends Controller
             'image_path' => $request->hasFile('project_image') ? $request->file('project_image')->store('project_image', 'public') : null,
         ]);
 
+        log_activity('Create', 'Projects', 'Created project: ' . $project->project_name);
+
         return redirect()->route('projects.index')->with("success", "Project has been listed successfully.");
     }
 
@@ -46,7 +48,11 @@ class ProjectController extends Controller
 
     public function delete($id){
         $project = Project::findOrFail($id);
+        $name = $project->project_name;
         $project->delete();
+
+        log_activity('Delete', 'Projects', 'Deleted project: ' . $name);
+
         return redirect()->back();
     }
 
