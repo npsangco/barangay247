@@ -37,6 +37,7 @@ class RegisteredUserController extends Controller
             'gender' => ['required', 'in:Male,Female,Other'],
             'contact_information' => ['required', 'string', 'regex:/^(09\d{9}|\+639\d{9})$/'],
             'address' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255', 'unique:'.User::class, 'alpha_dash'],
             'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:'.User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
@@ -51,6 +52,7 @@ class RegisteredUserController extends Controller
 
         $user = User::create([
             'name' => $request->name,
+            'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'role' => 'resident',
