@@ -54,10 +54,44 @@ class HouseholdController extends Controller
         return view('households', compact('households'));
     }
 
+    public function update(Request $request, $id)
+    {
+        $household = Households::findOrFail($id);
+
+        $validated = $request->validate([
+            'head' => 'required|string|max:100',
+            'address' => 'required|string|max:255',
+            'contact' => ['required', 'regex:/^(09\d{9}|\+639\d{9})$/'],
+            'members' => 'required|integer|min:1|max:50',
+            'pic' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        $updateData = [
+            'household_head' => $validated['head'],
+            'address' => $validated['address'],
+            'contact_information' => $validated['contact'],
+            'number_of_members' => $validated['members'],
+        ];
+
+        if ($request->hasFile('pic')) {
+            $updateData['image_path'] = $request->file('pic')->store('household_images', 'public');
+        }
+
+        $household->update($updateData);
+
+        log_activity('Update', 'Households', 'Updated household: ' . $household->household_head);
+
+        return redirect()->route('households.index')->with('success', 'Household updated successfully.');
+    }
+
     public function delete($id)
     {
         $household = Households::findOrFail($id);
+        $name = $household->household_head;
         $household->delete();
+
+        log_activity('Delete', 'Households', 'Deleted household: ' . $name);
+
         return redirect()->back()->with('success', 'Household deleted successfully.');
     }
 }

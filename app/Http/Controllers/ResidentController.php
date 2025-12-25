@@ -7,7 +7,7 @@ use App\Models\Resident;
 
 class ResidentController extends Controller
 {
-        public function view(Request $request)
+    public function view(Request $request)
     {
         $search = $request->input('search');
 
@@ -24,10 +24,114 @@ class ResidentController extends Controller
         return view('residents', compact('residents'));
     }
 
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:100',
+            'date_of_birth' => 'required|date|before:today',
+            'gender' => 'required|in:Male,Female,Other',
+            'contact' => ['required', 'regex:/^(09\d{9}|\+639\d{9})$/'],
+            'address' => 'required|string|max:255',
+        ]);
+
+        $resident = Resident::create([
+            'resident_name' => $validated['name'],
+            'date_of_birth' => $validated['date_of_birth'],
+            'gender' => $validated['gender'],
+            'contact_information' => $validated['contact'],
+            'address' => $validated['address'],
+        ]);
+
+        log_activity('Create', 'Residents', 'Created resident: ' . $resident->resident_name);
+
+        return redirect()->route('residents.index')->with('success', 'Resident created successfully.');
+    }
+
+    public function update(Request $request, $id)
+    {
+        $resident = Resident::findOrFail($id);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:100',
+            'date_of_birth' => 'required|date|before:today',
+            'gender' => 'required|in:Male,Female,Other',
+            'contact' => ['required', 'regex:/^(09\d{9}|\+639\d{9})$/'],
+            'address' => 'required|string|max:255',
+        ]);
+
+        $resident->update([
+            'resident_name' => $validated['name'],
+            'date_of_birth' => $validated['date_of_birth'],
+            'gender' => $validated['gender'],
+            'contact_information' => $validated['contact'],
+            'address' => $validated['address'],
+        ]);
+
+        log_activity('Update', 'Residents', 'Updated resident: ' . $resident->resident_name);
+
+        return redirect()->route('residents.index')->with('success', 'Resident updated successfully.');
+    }
+
     public function delete($id)
     {
         $resident = Resident::findOrFail($id);
+        $name = $resident->resident_name;
         $resident->delete();
+
+        log_activity('Delete', 'Residents', 'Deleted resident: ' . $name);
+
         return redirect()->back()->with('success', 'Resident deleted successfully.');
+    }
+
+    public function myInformation()
+    {
+        $user = auth()->user();
+
+        if (!$user->resident_id) {
+            return redirect()->route('dashboard')->with('error', 'Your account is not linked to a resident profile. Please contact the administrator.');
+        }
+
+        $resident = Resident::find($user->resident_id);
+
+        if (!$resident) {
+            return redirect()->route('dashboard')->with('error', 'Your resident profile was not found. Please contact the administrator.');
+        }
+
+        return view('resident_my_info', compact('resident'));
+    }
+
+    public function updateMyInformation(Request $request)
+    {
+        $user = auth()->user();
+
+        if (!$user->resident_id) {
+            return redirect()->route('dashboard')->with('error', 'Your account is not linked to a resident profile. Please contact the administrator.');
+        }
+
+        $resident = Resident::find($user->resident_id);
+
+        if (!$resident) {
+            return redirect()->route('dashboard')->with('error', 'Your resident profile was not found. Please contact the administrator.');
+        }
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:100',
+            'date_of_birth' => 'required|date|before:today',
+            'gender' => 'required|in:Male,Female,Other',
+            'contact' => ['required', 'regex:/^(09\d{9}|\+639\d{9})$/'],
+            'address' => 'required|string|max:255',
+        ]);
+
+        $resident->update([
+            'resident_name' => $validated['name'],
+            'date_of_birth' => $validated['date_of_birth'],
+            'gender' => $validated['gender'],
+            'contact_information' => $validated['contact'],
+            'address' => $validated['address'],
+        ]);
+
+        log_activity('Update', 'Residents', 'Resident updated own information: ' . $resident->resident_name);
+
+        return redirect()->route('resident.my-info')->with('success', 'Your information has been updated successfully.');
     }
 }

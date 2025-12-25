@@ -13,18 +13,58 @@ class ProjectController extends Controller
     }
 
     public function store(Request $request){
+        $validated = $request->validate([
+            'project_name' => 'required|string|max:150',
+            'project_description' => 'required|string',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'project_status' => 'required|string|max:100',
+            'project_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
         $project = Project::create([
-            'project_name' => $request->input('project_name'),
-            'project_description' => $request->input('project_description'),
-            'start_date' => $request->input('start_date'),
-            'end_date' => $request->input('end_date'),
-            'project_status' => $request->input('project_status'),
-            'image_path' => $request->hasFile('project_image') ? $request->file('project_image')->store('project_image', 'public') : null,
+            'project_name' => $validated['project_name'],
+            'project_description' => $validated['project_description'],
+            'start_date' => $validated['start_date'],
+            'end_date' => $validated['end_date'],
+            'project_status' => $validated['project_status'],
+            'image_path' => $request->hasFile('project_image') ? $request->file('project_image')->store('project_images', 'public') : null,
         ]);
 
         log_activity('Create', 'Projects', 'Created project: ' . $project->project_name);
 
-        return redirect()->route('projects.index')->with("success", "Project has been listed successfully.");
+        return redirect()->route('projects.index')->with("success", "Project created successfully.");
+    }
+
+    public function update(Request $request, $id){
+        $project = Project::findOrFail($id);
+
+        $validated = $request->validate([
+            'project_name' => 'required|string|max:150',
+            'project_description' => 'required|string',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date|after_or_equal:start_date',
+            'project_status' => 'required|string|max:100',
+            'project_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        $updateData = [
+            'project_name' => $validated['project_name'],
+            'project_description' => $validated['project_description'],
+            'start_date' => $validated['start_date'],
+            'end_date' => $validated['end_date'],
+            'project_status' => $validated['project_status'],
+        ];
+
+        if ($request->hasFile('project_image')) {
+            $updateData['image_path'] = $request->file('project_image')->store('project_images', 'public');
+        }
+
+        $project->update($updateData);
+
+        log_activity('Update', 'Projects', 'Updated project: ' . $project->project_name);
+
+        return redirect()->route('projects.index')->with("success", "Project updated successfully.");
     }
 
 
@@ -81,5 +121,21 @@ class ProjectController extends Controller
         return view('projects_trashed', compact('dgtProjects'));
     }
 
+    public function viewForResidents(Request $request){
+        $search = $request->input('search');
+
+        if ($search) {
+            $dgtProjects = Project::where('project_id', 'like', "%$search%")
+                ->orWhere('project_name', 'like', "%$search%")
+                ->orWhere('project_description', 'like', "%$search%")
+                ->orWhere('start_date', 'like', "%$search%")
+                ->orWhere('end_date', 'like', "%$search%")
+                ->get();
+        } else {
+            $dgtProjects = Project::all();
+        }
+
+        return view('projects_resident', compact('dgtProjects'));
+    }
 
 }

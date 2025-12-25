@@ -15,21 +15,34 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.*')">
-                        {{ __('Projects') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('officials.index')" :active="request()->routeIs('officials.*')">
-                        {{ __('Officials') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('residents.index')" :active="request()->routeIs('residents.*')">
-                        {{ __('Residents') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('households.index')" :active="request()->routeIs('households.*')">
-                        {{ __('Households') }}
-                    </x-nav-link>
-                    <x-nav-link :href="route('incidents.index')" :active="request()->routeIs('incidents.*')">
-                        {{ __('Incidents') }}
-                    </x-nav-link>
+
+                    @if(Auth::user()->isAdmin() || Auth::user()->isEmployee())
+                        <x-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.index')">
+                            {{ __('Projects') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('officials.index')" :active="request()->routeIs('officials.index')">
+                            {{ __('Officials') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('residents.index')" :active="request()->routeIs('residents.index')">
+                            {{ __('Residents') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('households.index')" :active="request()->routeIs('households.index')">
+                            {{ __('Households') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('incidents.index')" :active="request()->routeIs('incidents.index')">
+                            {{ __('Incidents') }}
+                        </x-nav-link>
+                    @else
+                        <x-nav-link :href="route('resident.my-info')" :active="request()->routeIs('resident.my-info')">
+                            {{ __('My Information') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('projects.resident')" :active="request()->routeIs('projects.resident')">
+                            {{ __('Projects') }}
+                        </x-nav-link>
+                        <x-nav-link :href="route('incidents.resident')" :active="request()->routeIs('incidents.resident')">
+                            {{ __('Incidents') }}
+                        </x-nav-link>
+                    @endif
                 </div>
             </div>
 
@@ -85,21 +98,34 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.*')">
-                {{ __('Projects') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('officials.index')" :active="request()->routeIs('officials.*')">
-                {{ __('Officials') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('residents.index')" :active="request()->routeIs('residents.*')">
-                {{ __('Residents') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('households.index')" :active="request()->routeIs('households.*')">
-                {{ __('Households') }}
-            </x-responsive-nav-link>
-            <x-responsive-nav-link :href="route('incidents.index')" :active="request()->routeIs('incidents.*')">
-                {{ __('Incidents') }}
-            </x-responsive-nav-link>
+
+            @if(Auth::user()->isAdmin() || Auth::user()->isEmployee())
+                <x-responsive-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.index')">
+                    {{ __('Projects') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('officials.index')" :active="request()->routeIs('officials.index')">
+                    {{ __('Officials') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('residents.index')" :active="request()->routeIs('residents.index')">
+                    {{ __('Residents') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('households.index')" :active="request()->routeIs('households.index')">
+                    {{ __('Households') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('incidents.index')" :active="request()->routeIs('incidents.index')">
+                    {{ __('Incidents') }}
+                </x-responsive-nav-link>
+            @else
+                <x-responsive-nav-link :href="route('resident.my-info')" :active="request()->routeIs('resident.my-info')">
+                    {{ __('My Information') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('projects.resident')" :active="request()->routeIs('projects.resident')">
+                    {{ __('Projects') }}
+                </x-responsive-nav-link>
+                <x-responsive-nav-link :href="route('incidents.resident')" :active="request()->routeIs('incidents.resident')">
+                    {{ __('Incidents') }}
+                </x-responsive-nav-link>
+            @endif
         </div>
 
         <!-- Responsive Settings Options -->

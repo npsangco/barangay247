@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Trashed Projects') }}
+            {{ __('Barangay Projects') }}
         </h2>
     </x-slot>
 
@@ -9,15 +9,9 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
-                    <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Trashed Projects</h2>
-                        <a href="{{ route('projects.index') }}"
-                           class="px-4 py-2 bg-gray-600 text-white rounded-md hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500">
-                            Back to Projects
-                        </a>
-                    </div>
+                    <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-6">Barangay Projects</h2>
 
-                    <form action="{{ route('projects.trash') }}" method="GET" class="mb-6">
+                    <form action="{{ route('projects.resident') }}" method="GET" class="mb-6">
                         <div class="flex gap-2">
                             <input type="search" name="search" class="flex-1 rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600"
                                    placeholder="Search Projects..." value="{{ request('search') }}">
@@ -36,7 +30,6 @@
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">End Date</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
                                 <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Image</th>
-                                <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
                             </tr>
                             </thead>
                             <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
@@ -48,7 +41,13 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ \Carbon\Carbon::parse($project->start_date)->format('M d, Y') }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ \Carbon\Carbon::parse($project->end_date)->format('M d, Y') }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                            @if($project->project_status == 'Completed') bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200
+                                            @elseif($project->project_status == 'In Progress') bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
+                                            @elseif($project->project_status == 'Planning') bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200
+                                            @elseif($project->project_status == 'On Hold') bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200
+                                            @else bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200
+                                            @endif">
                                             {{ $project->project_status }}
                                         </span>
                                     </td>
@@ -60,16 +59,10 @@
                                             <span class="text-gray-500 dark:text-gray-400">No Image</span>
                                         @endif
                                     </td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                        <form action="{{ route('projects.restore', $project->project_id) }}" method="POST" onsubmit="return confirm('Are you sure you want to restore this project?');">
-                                            @csrf
-                                            <button type="submit" class="text-green-600 hover:text-green-900 dark:text-green-400 dark:hover:text-green-300 font-medium">Restore</button>
-                                        </form>
-                                    </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="8" class="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400">No trashed projects found.</td>
+                                    <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400">No projects found.</td>
                                 </tr>
                             @endforelse
                             </tbody>
