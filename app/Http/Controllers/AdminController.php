@@ -9,60 +9,86 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Helpers\LogHelper;
 
-class UserFeedController extends Controller
+class AdminController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
+        $search = $request->input('search');
+
         $incidents = Incident::with('resident')
+            ->when($search, function ($query, $search) {
+                return $query->where('incident_type', 'like', "%{$search}%")
+                    ->orWhere('incident_details', 'like', "%{$search}%");
+            })
             ->orderBy('created_at', 'desc')
             ->paginate(10);
+
         $projects = Project::whereNull('deleted_at')
+            ->when($search, function ($query, $search) {
+                return $query->where('project_name', 'like', "%{$search}%")
+                    ->orWhere('project_description', 'like', "%{$search}%");
+            })
             ->orderBy('created_at', 'desc')
             ->paginate(10);
+
         return view('userUI.feed', compact('incidents', 'projects'));
     }
 
-    public function incidents()
+    public function incidents(Request $request)
     {
+        $search = $request->input('search');
+
         $incidents = Incident::with('resident', 'official')
+            ->when($search, function ($query, $search) {
+                return $query->where('incident_type', 'like', "%{$search}%")
+                    ->orWhere('incident_details', 'like', "%{$search}%")
+                    ->orWhereHas('resident', function ($q) use ($search) {
+                        $q->where('resident_name', 'like', "%{$search}%");
+                    });
+            })
             ->orderBy('created_at', 'desc')
             ->paginate(15);
+
         return view('userUI.incidents', compact('incidents'));
     }
 
-    public function projects()
+    public function projects(Request $request)
     {
+        $search = $request->input('search');
+
         $projects = Project::whereNull('deleted_at')
+            ->when($search, function ($query, $search) {
+                return $query->where('project_name', 'like', "%{$search}%")
+                    ->orWhere('project_description', 'like', "%{$search}%")
+                    ->orWhere('project_status', 'like', "%{$search}%");
+            })
             ->orderBy('created_at', 'desc')
             ->paginate(15);
+
         return view('userUI.projects', compact('projects'));
     }
 
     public function createIncident()
     {
-        $user = Auth::user();
-        if (!$user->isResident() || !$user->resident_id) {
-            return redirect()->route('userUI.feed')->with('error', 'Only residents can report incidents.');
-        }
         return view('userUI.create-incident');
     }
 
     public function storeIncident(Request $request)
     {
         $user = Auth::user();
-        if (!$user->isResident() || !$user->resident_id) {
-            return redirect()->route('userUI.feed')->with('error', 'Only residents can report incidents.');
-        }
+
         $validated = $request->validate([
             'incident_type' => 'required|string|max:255',
             'incident_details' => 'required|string',
         ]);
+
         $incident = Incident::create([
-            'resident_id' => $user->resident_id,
+            'resident_id' => $user->resident_id ?? null,
             'incident_type' => $validated['incident_type'],
             'incident_details' => $validated['incident_details'],
             'date_reported' => now(),
         ]);
+
         LogHelper::log(
             Auth::id(),
             'Incident Report Created',
@@ -71,7 +97,8 @@ class UserFeedController extends Controller
             null,
             json_encode($incident->toArray())
         );
-        return redirect()->route('userUI.incidents')->with('success', 'Incident reported successfully!');
+
+        return redirect()->route('resident.incidents')->with('success', 'Incident reported successfully!');
     }
 
     public function showIncident($id)

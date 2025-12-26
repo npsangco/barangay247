@@ -12,11 +12,10 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-
                     @if(Auth::user()->isAdmin() || Auth::user()->isEmployee())
+                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                            {{ __('Dashboard') }}
+                        </x-nav-link>
                         <x-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.index')">
                             {{ __('Projects') }}
                         </x-nav-link>
@@ -33,13 +32,13 @@
                             {{ __('Incidents') }}
                         </x-nav-link>
                     @else
-                        <x-nav-link :href="route('resident.my-info')" :active="request()->routeIs('resident.my-info')">
-                            {{ __('My Information') }}
+                        <x-nav-link :href="route('resident.home')" :active="request()->routeIs('resident.home')">
+                            {{ __('Home') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('projects.resident')" :active="request()->routeIs('projects.resident')">
+                        <x-nav-link :href="route('resident.projects')" :active="request()->routeIs('resident.projects')">
                             {{ __('Projects') }}
                         </x-nav-link>
-                        <x-nav-link :href="route('incidents.resident')" :active="request()->routeIs('incidents.resident')">
+                        <x-nav-link :href="route('resident.incidents')" :active="request()->routeIs('resident.incidents')">
                             {{ __('Incidents') }}
                         </x-nav-link>
                     @endif
@@ -95,11 +94,10 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-
             @if(Auth::user()->isAdmin() || Auth::user()->isEmployee())
+                <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                    {{ __('Dashboard') }}
+                </x-responsive-nav-link>
                 <x-responsive-nav-link :href="route('projects.index')" :active="request()->routeIs('projects.index')">
                     {{ __('Projects') }}
                 </x-responsive-nav-link>
@@ -116,13 +114,13 @@
                     {{ __('Incidents') }}
                 </x-responsive-nav-link>
             @else
-                <x-responsive-nav-link :href="route('resident.my-info')" :active="request()->routeIs('resident.my-info')">
-                    {{ __('My Information') }}
+                <x-responsive-nav-link :href="route('resident.home')" :active="request()->routeIs('resident.home')">
+                    {{ __('Home') }}
                 </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('projects.resident')" :active="request()->routeIs('projects.resident')">
+                <x-responsive-nav-link :href="route('resident.projects')" :active="request()->routeIs('resident.projects')">
                     {{ __('Projects') }}
                 </x-responsive-nav-link>
-                <x-responsive-nav-link :href="route('incidents.resident')" :active="request()->routeIs('incidents.resident')">
+                <x-responsive-nav-link :href="route('resident.incidents')" :active="request()->routeIs('resident.incidents')">
                     {{ __('Incidents') }}
                 </x-responsive-nav-link>
             @endif

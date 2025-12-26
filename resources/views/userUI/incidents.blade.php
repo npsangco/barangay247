@@ -4,7 +4,7 @@
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __('Community Incidents') }}
             </h2>
-            <a href="{{ route('user.incident.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 focus:ring ring-blue-300 disabled:opacity-25 transition ease-in-out duration-150">
+            <a href="{{ route('resident.incident.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700 active:bg-blue-900 focus:outline-none focus:border-blue-900 focus:ring ring-blue-300 disabled:opacity-25 transition ease-in-out duration-150">
                 <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                 </svg>
@@ -15,6 +15,27 @@
 
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <!-- Search Bar -->
+            <form method="GET" action="{{ route('resident.incidents') }}" class="mb-6">
+                <div class="flex gap-2">
+                    <input type="text"
+                           name="search"
+                           value="{{ request('search') }}"
+                           placeholder="Search incidents by type, details, or reporter..."
+                           class="flex-1 rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </button>
+                    @if(request('search'))
+                        <a href="{{ route('resident.incidents') }}" class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600">
+                            Clear
+                        </a>
+                    @endif
+                </div>
+            </form>
+
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6">
                     @forelse($incidents as $incident)
@@ -35,7 +56,7 @@
                                         @endif
                                     </div>
                                     <h4 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-2">
-                                        <a href="{{ route('user.incident.show', $incident->report_id) }}" class="hover:text-blue-600 dark:hover:text-blue-400">
+                                        <a href="{{ route('resident.incident.show', $incident->report_id) }}" class="hover:text-blue-600 dark:hover:text-blue-400">
                                             {{ $incident->incident_type }}
                                         </a>
                                     </h4>
@@ -43,7 +64,7 @@
                                         {{ Str::limit($incident->incident_details, 300) }}
                                     </p>
                                     <div class="flex items-center space-x-4 text-xs text-gray-500 dark:text-gray-400">
-                                        <a href="{{ route('user.incident.show', $incident->report_id) }}" class="hover:text-gray-700 dark:hover:text-gray-300 flex items-center">
+                                        <a href="{{ route('resident.incident.show', $incident->report_id) }}" class="hover:text-gray-700 dark:hover:text-gray-300 flex items-center">
                                             <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
                                             </svg>
@@ -67,7 +88,7 @@
                             <h3 class="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">No incidents reported</h3>
                             <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Get started by reporting an incident.</p>
                             <div class="mt-6">
-                                <a href="{{ route('user.incident.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700">
+                                <a href="{{ route('resident.incident.create') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-700">
                                     <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
                                     </svg>

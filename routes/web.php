@@ -8,7 +8,7 @@ use App\Http\Controllers\HouseholdController;
 use App\Http\Controllers\IncidentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LogController;
-use App\Http\Controllers\UserFeedController;
+use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -16,9 +16,8 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    // Redirect residents to their feed
     if (Auth::user()->isResident()) {
-        return redirect()->route('user.feed');
+        return redirect()->route('resident.home');
     }
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -29,52 +28,36 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Routes for Residents (User Side)
+// resident side routes
 Route::middleware(['auth', 'role:resident'])->group(function () {
-    // Feed and main pages
-    Route::get('/feed', [UserFeedController::class, 'index'])->name('user.feed');
-    Route::get('/feed/incidents', [UserFeedController::class, 'incidents'])->name('user.incidents');
-    Route::get('/feed/projects', [UserFeedController::class, 'projects'])->name('user.projects');
-
-    // Incident routes
-    Route::get('/incident/create', [UserFeedController::class, 'createIncident'])->name('user.incident.create');
-    Route::post('/incident/store', [UserFeedController::class, 'storeIncident'])->name('user.incident.store');
-    Route::get('/incident/{id}', [UserFeedController::class, 'showIncident'])->name('user.incident.show');
-
-    // Project view route
-    Route::get('/project/{id}', [UserFeedController::class, 'showProject'])->name('user.project.show');
+    Route::get('/home', [AdminController::class, 'index'])->name('resident.home');
+    Route::get('/home/incidents', [AdminController::class, 'incidents'])->name('resident.incidents');
+    Route::get('/home/projects', [AdminController::class, 'projects'])->name('resident.projects');
+    Route::get('/incident/create', [AdminController::class, 'createIncident'])->name('resident.incident.create');
+    Route::post('/incident/store', [AdminController::class, 'storeIncident'])->name('resident.incident.store');
+    Route::get('/incident/{id}', [AdminController::class, 'showIncident'])->name('resident.incident.show');
+    Route::get('/project/{id}', [AdminController::class, 'showProject'])->name('resident.project.show');
 });
 
-// Routes for Admin and Employee only
+// admin and employee routes
 Route::middleware(['auth', 'role:admin,employee'])->group(function () {
-    // Projects routes
     Route::get('/projects', [ProjectController::class, 'view'])->name('projects.index');
     Route::post('/projects', [ProjectController::class, 'store'])->name('projects.store');
     Route::put('/projects/{id}', [ProjectController::class, 'update'])->name('projects.update');
     Route::get('/projects/trash', [ProjectController::class, 'viewTrashed'])->name('projects.trash');
     Route::post('/projects/restore/{id}', [ProjectController::class, 'restore'])->name('projects.restore');
-
-    // Officials routes
     Route::get('/officials', [OfficialController::class, 'view'])->name('officials.index');
     Route::post('/officials', [OfficialController::class, 'store'])->name('officials.store');
     Route::put('/officials/{id}', [OfficialController::class, 'update'])->name('officials.update');
-
-    // Residents routes
     Route::get('/residents', [ResidentController::class, 'view'])->name('residents.index');
     Route::post('/residents', [ResidentController::class, 'store'])->name('residents.store');
     Route::put('/residents/{id}', [ResidentController::class, 'update'])->name('residents.update');
-
-    // Households routes
     Route::get('/households', [HouseholdController::class, 'index'])->name('households.index');
     Route::post('/households', [HouseholdController::class, 'register'])->name('households.store');
     Route::put('/households/{id}', [HouseholdController::class, 'update'])->name('households.update');
-
-    // Incidents routes
     Route::get('/incidents', [IncidentController::class, 'view'])->name('incidents.index');
     Route::post('/incidents', [IncidentController::class, 'store'])->name('incidents.store');
     Route::put('/incidents/{id}', [IncidentController::class, 'update'])->name('incidents.update');
-
-    // Delete routes
     Route::post('/projects/delete/{id}', [ProjectController::class, 'delete'])->name('projects.delete');
     Route::post('/officials/delete/{id}', [OfficialController::class, 'delete'])->name('officials.delete');
     Route::post('/residents/delete/{id}', [ResidentController::class, 'delete'])->name('residents.delete');
@@ -82,13 +65,9 @@ Route::middleware(['auth', 'role:admin,employee'])->group(function () {
     Route::post('/incidents/delete/{id}', [IncidentController::class, 'delete'])->name('incidents.delete');
 });
 
-// Resident-only routes
+// Resident-only routes (legacy, can be removed)
 Route::middleware(['auth', 'role:resident'])->group(function () {
-    Route::get('/resident/projects', [ProjectController::class, 'viewForResidents'])->name('projects.resident');
-    Route::get('/resident/incidents', [IncidentController::class, 'viewForResidents'])->name('incidents.resident');
-    Route::post('/resident/incidents', [IncidentController::class, 'storeByResident'])->name('incidents.resident.store');
-    Route::get('/resident/my-info', [ResidentController::class, 'myInformation'])->name('resident.my-info');
-    Route::put('/resident/my-info', [ResidentController::class, 'updateMyInformation'])->name('resident.my-info.update');
+    // Routes now handled by ResidentController above
 });
 
 // Admin-only routes

@@ -121,21 +121,4 @@ class ProjectController extends Controller
         return view('projects_trashed', compact('dgtProjects'));
     }
 
-    public function viewForResidents(Request $request){
-        $search = $request->input('search');
-
-        if ($search) {
-            $dgtProjects = Project::where('project_id', 'like', "%$search%")
-                ->orWhere('project_name', 'like', "%$search%")
-                ->orWhere('project_description', 'like', "%$search%")
-                ->orWhere('start_date', 'like', "%$search%")
-                ->orWhere('end_date', 'like', "%$search%")
-                ->get();
-        } else {
-            $dgtProjects = Project::all();
-        }
-
-        return view('projects_resident', compact('dgtProjects'));
-    }
-
 }

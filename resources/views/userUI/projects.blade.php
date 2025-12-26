@@ -7,6 +7,28 @@
 
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <!-- Search Bar -->
+            <form method="GET" action="{{ route('resident.projects') }}" class="mb-6">
+                <div class="flex gap-2">
+                    <input type="text"
+                           name="search"
+                           value="{{ request('search') }}"
+                           placeholder="Search projects by name, description, or status..."
+                           class="flex-1 rounded-md border-gray-300 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                    <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                        </svg>
+                    </button>
+                    @if(request('search'))
+                        <a href="{{ route('resident.projects') }}" class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600">
+                            Clear
+                        </a>
+                    @endif
+                </div>
+            </form>
+
+            <!-- Project Cards Grid -->
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @forelse($projects as $project)
                     <article class="bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 hover:shadow-lg transition overflow-hidden">
@@ -15,10 +37,7 @@
                                 <img src="{{ asset('storage/' . $project->image_path) }}" alt="{{ $project->project_name }}" class="w-full h-48 object-cover">
                             </div>
                         @else
-                            <div class="w-full h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center">
-                                <svg class="w-16 h-16 text-white opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-                                </svg>
+                            <div class="w-full h-48 bg-gradient-to-br from-blue-500 to-purple-600">
                             </div>
                         @endif
 
@@ -36,7 +55,7 @@
                             </div>
 
                             <h3 class="text-lg font-bold text-gray-900 dark:text-gray-100 mb-2">
-                                <a href="{{ route('user.project.show', $project->project_id) }}" class="hover:text-blue-600 dark:hover:text-blue-400">
+                                <a href="{{ route('resident.project.show', $project->project_id) }}" class="hover:text-blue-600 dark:hover:text-blue-400">
                                     {{ $project->project_name }}
                                 </a>
                             </h3>
@@ -52,7 +71,7 @@
                                 {{ \Carbon\Carbon::parse($project->start_date)->format('M d, Y') }} - {{ \Carbon\Carbon::parse($project->end_date)->format('M d, Y') }}
                             </div>
 
-                            <a href="{{ route('user.project.show', $project->project_id) }}" class="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
+                            <a href="{{ route('resident.project.show', $project->project_id) }}" class="inline-flex items-center text-sm font-medium text-blue-600 hover:text-blue-800 dark:text-blue-400 dark:hover:text-blue-300">
                                 View Details
                                 <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
