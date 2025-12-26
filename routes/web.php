@@ -8,6 +8,7 @@ use App\Http\Controllers\HouseholdController;
 use App\Http\Controllers\IncidentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LogController;
+use App\Http\Controllers\UserFeedController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -15,6 +16,10 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
+    // Redirect residents to their feed
+    if (Auth::user()->isResident()) {
+        return redirect()->route('user.feed');
+    }
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
@@ -22,6 +27,22 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+// Routes for Residents (User Side)
+Route::middleware(['auth', 'role:resident'])->group(function () {
+    // Feed and main pages
+    Route::get('/feed', [UserFeedController::class, 'index'])->name('user.feed');
+    Route::get('/feed/incidents', [UserFeedController::class, 'incidents'])->name('user.incidents');
+    Route::get('/feed/projects', [UserFeedController::class, 'projects'])->name('user.projects');
+
+    // Incident routes
+    Route::get('/incident/create', [UserFeedController::class, 'createIncident'])->name('user.incident.create');
+    Route::post('/incident/store', [UserFeedController::class, 'storeIncident'])->name('user.incident.store');
+    Route::get('/incident/{id}', [UserFeedController::class, 'showIncident'])->name('user.incident.show');
+
+    // Project view route
+    Route::get('/project/{id}', [UserFeedController::class, 'showProject'])->name('user.project.show');
 });
 
 // Routes for Admin and Employee only

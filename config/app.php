@@ -123,4 +123,15 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | Official Registration Code
+    |--------------------------------------------------------------------------
+    |
+    | This code is required for officials to register in the system.
+    |
+    */
+
+    'official_registration_code' => env('OFFICIAL_REGISTRATION_CODE'),
+
 ];

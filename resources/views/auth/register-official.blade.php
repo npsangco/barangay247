@@ -3,7 +3,7 @@
         @csrf
 
         <div class="mb-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-md">
-            <p class="text-sm text-blue-800 dark:text-blue-200">
+            <p class="text-sm text-white dark:text-blue-200">
                 <strong>Official Registration</strong><br>
                 This form is for barangay officials only. You need a valid registration code to proceed.
             </p>
