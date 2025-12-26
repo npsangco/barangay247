@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Incident Records') }}
+            {{ __('My Incident Reports') }}
         </h2>
     </x-slot>
 
@@ -16,6 +16,12 @@
                         </div>
                     @endif
 
+                    @if(session('error'))
+                        <div class="mb-4 p-4 bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-300 rounded-md">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
                     @if($errors->any())
                         <div class="mb-4 p-4 bg-red-100 dark:bg-red-900 border border-red-400 dark:border-red-700 text-red-700 dark:text-red-300 rounded-md">
                             <ul class="list-disc list-inside">
@@ -27,18 +33,18 @@
                     @endif
 
                     <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">Incident Records</h2>
+                        <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">My Incident Reports</h2>
                         <button
                             onclick="openModal('incidentModal', 'create')"
                             class="px-4 py-2 bg-indigo-600 text-white rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            Add Incident
+                            Report Incident
                         </button>
                     </div>
 
-                    <form action="{{ route('incidents.index') }}" method="GET" class="mb-6">
+                    <form action="{{ route('incidents.resident') }}" method="GET" class="mb-6">
                         <div class="flex gap-2">
                             <input type="text" name="search" class="flex-1 rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600"
-                                   placeholder="Search by ID or Resident Name..." value="{{ request('search') }}">
+                                   placeholder="Search by ID or Type..." value="{{ request('search') }}">
                             <button type="submit" class="px-4 py-2 bg-gray-800 dark:bg-gray-200 text-white dark:text-gray-800 rounded-md hover:bg-gray-700 dark:hover:bg-gray-300">Search</button>
                         </div>
                     </form>
@@ -48,47 +54,24 @@
                             <thead class="bg-gray-50 dark:bg-gray-700">
                                 <tr>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Incident ID</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Resident Name</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Incident Type</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Description</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Official Assigned</th>
                                     <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Date Reported</th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Actions</th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
                                 @forelse($incidents as $incident)
                                     <tr>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ $incident->report_id }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ $incident->resident_name }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ $incident->incident_type }}</td>
                                         <td class="px-6 py-4 text-sm text-gray-900 dark:text-gray-100">{{ $incident->incident_details ?? 'N/A' }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ $incident->official_name ?? 'Not Assigned' }}</td>
                                         <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100">{{ \Carbon\Carbon::parse($incident->date_reported)->format('M d, Y') }}</td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm">
-                                            <div class="flex gap-2">
-                                                <button
-                                                    onclick="openModal('incidentModal', 'edit', {
-                                                        id: {{ $incident->report_id }},
-                                                        resident_id: {{ $incident->resident_id }},
-                                                        official_id: {{ $incident->official_id ?? 'null' }},
-                                                        incident_type: '{{ addslashes($incident->incident_type) }}',
-                                                        incident_details: '{{ addslashes($incident->incident_details) }}',
-                                                        date_reported: '{{ $incident->date_reported }}'
-                                                    })"
-                                                    class="text-indigo-600 hover:text-indigo-900 dark:text-indigo-400 dark:hover:text-indigo-300 font-medium">
-                                                    Edit
-                                                </button>
-                                                <form action="{{ route('incidents.delete', $incident->report_id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this incident?');">
-                                                    @csrf
-                                                    <button type="submit" class="text-red-600 hover:text-red-900 dark:text-red-400 dark:hover:text-red-300 font-medium">Delete</button>
-                                                </form>
-                                            </div>
-                                        </td>
                                     </tr>
                                 @empty
                                     <tr>
-                                        <td colspan="7" class="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400">No incident records found.</td>
+                                        <td colspan="5" class="px-6 py-4 text-center text-sm text-gray-500 dark:text-gray-400">No incident reports found.</td>
                                     </tr>
                                 @endforelse
                             </tbody>
@@ -101,24 +84,10 @@
 
     <!-- Incident Modal -->
     <x-data-form-modal
-        title="Incident"
-        route="{{ route('incidents.store') }}"
+        title="Incident Report"
+        route="{{ route('incidents.resident.store') }}"
         modalId="incidentModal"
         :fields="[
-            [
-                'name' => 'resident_id',
-                'label' => 'Resident',
-                'type' => 'select',
-                'required' => true,
-                'options' => $residents->pluck('resident_name', 'resident_id')->toArray()
-            ],
-            [
-                'name' => 'official_id',
-                'label' => 'Assigned Official (Optional)',
-                'type' => 'select',
-                'required' => false,
-                'options' => array_merge(['' => 'Select Official (Optional)'], $officials->pluck('official_name', 'official_id')->toArray())
-            ],
             [
                 'name' => 'incident_type',
                 'label' => 'Incident Type',
