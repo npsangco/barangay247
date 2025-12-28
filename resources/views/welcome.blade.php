@@ -14,23 +14,6 @@
 </head>
 <body class="antialiased bg-gray-50">
     <div class="min-h-screen flex flex-col">
-        <!-- Header -->
-        <header class="bg-white shadow">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                <div class="flex justify-between items-center">
-                    <div>
-                        <h1 class="text-3xl font-bold text-gray-900">Barangay 24/7</h1>
-                        <p class="text-sm text-gray-600">Your Community Information Portal</p>
-                    </div>
-                    @auth
-                        <a href="{{ url('/dashboard') }}" class="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition">
-                            Go to Dashboard
-                        </a>
-                    @endauth
-                </div>
-            </div>
-        </header>
-
         <!-- Hero Section -->
         <main class="flex-1">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
