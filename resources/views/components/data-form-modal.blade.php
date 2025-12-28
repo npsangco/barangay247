@@ -22,7 +22,7 @@
                 </div>
 
                 <!-- Modal Body -->
-                <form id="{{ $modalId }}Form" action="{{ $route }}" method="POST" enctype="multipart/form-data" class="p-6">
+                <form id="{{ $modalId }}Form" action="{{ $route }}" method="POST" enctype="multipart/form-data" class="p-6" onsubmit="handleFormSubmit(event, '{{ $modalId }}')">
                     @csrf
                     <input type="hidden" id="{{ $modalId }}Method" name="_method" value="">
 
@@ -43,7 +43,7 @@
                                         rows="4"
                                         {{ ($field['required'] ?? true) ? 'required' : '' }}
                                         placeholder="{{ $field['placeholder'] ?? '' }}"
-                                        class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600"
+                                        class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-blue-500 dark:focus:border-blue-600 focus:ring-blue-500 dark:focus:ring-blue-600"
                                     ></textarea>
 
                                 @elseif($field['type'] === 'select')
@@ -51,7 +51,7 @@
                                         name="{{ $field['name'] }}"
                                         id="{{ $modalId }}_{{ $field['name'] }}"
                                         {{ ($field['required'] ?? true) ? 'required' : '' }}
-                                        class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
+                                        class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-blue-500 dark:focus:border-blue-600 focus:ring-blue-500 dark:focus:ring-blue-600">
                                         <option value="">Select {{ $field['label'] }}</option>
                                         @foreach($field['options'] as $value => $label)
                                             <option value="{{ $value }}">{{ $label }}</option>
@@ -79,7 +79,7 @@
                                         min="{{ $field['min'] ?? '' }}"
                                         max="{{ $field['max'] ?? '' }}"
                                         step="{{ $field['step'] ?? '' }}"
-                                        class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600">
+                                        class="w-full rounded-md border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-blue-500 dark:focus:border-blue-600 focus:ring-blue-500 dark:focus:ring-blue-600">
                                 @endif
 
                                 @error($field['name'])
@@ -94,13 +94,17 @@
                         <button
                             type="button"
                             onclick="closeModal('{{ $modalId }}')"
-                            class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            class="px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-md hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
                             Cancel
                         </button>
                         <button
                             type="submit"
-                            class="modal-submit-btn px-4 py-2 text-sm font-medium text-white bg-indigo-600 border border-transparent rounded-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                            Create
+                            class="modal-submit-btn inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-blue-600 border border-transparent rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed">
+                            <span class="btn-text">Create</span>
+                            <svg class="btn-spinner hidden animate-spin ml-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
                         </button>
                     </div>
                 </form>
@@ -116,15 +120,20 @@ function openModal(modalId, mode = 'create', data = null) {
     const methodInput = document.getElementById(modalId + 'Method');
     const title = modal.querySelector('.modal-title');
     const submitBtn = modal.querySelector('.modal-submit-btn');
+    const btnText = submitBtn.querySelector('.btn-text');
     const editOnlyElements = modal.querySelectorAll('.edit-only');
 
     // Reset form
     form.reset();
 
+    // Reset button state
+    submitBtn.disabled = false;
+    submitBtn.querySelector('.btn-spinner').classList.add('hidden');
+
     if (mode === 'edit' && data) {
         // Set title and button text
         title.textContent = 'Edit {{ $title }}';
-        submitBtn.textContent = 'Update';
+        btnText.textContent = 'Update';
 
         // Set form action and method
         form.action = '{{ $route }}/' + data.id;
@@ -147,7 +156,7 @@ function openModal(modalId, mode = 'create', data = null) {
     } else {
         // Set title and button text
         title.textContent = 'Add {{ $title }}';
-        submitBtn.textContent = 'Create';
+        btnText.textContent = 'Create';
 
         // Set form action and method
         form.action = '{{ $route }}';
@@ -164,6 +173,20 @@ function openModal(modalId, mode = 'create', data = null) {
 function closeModal(modalId) {
     const modal = document.getElementById(modalId);
     modal.classList.add('hidden');
+}
+
+function handleFormSubmit(event, modalId) {
+    const form = event.target;
+    const modal = document.getElementById(modalId);
+    const submitBtn = modal.querySelector('.modal-submit-btn');
+    const btnText = submitBtn.querySelector('.btn-text');
+    const btnSpinner = submitBtn.querySelector('.btn-spinner');
+
+    // Disable button and show loading state
+    submitBtn.disabled = true;
+    btnText.textContent = 'Saving...';
+    btnSpinner.classList.remove('hidden');
+
 }
 
 // Close modal on ESC key
