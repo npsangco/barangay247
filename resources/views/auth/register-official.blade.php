@@ -1,11 +1,15 @@
 <x-guest-layout>
+    <div class="mb-3">
+        <h2 class="text-xl font-bold text-gray-900 text-center">Register as Official</h2>
+        <p class="text-xs text-gray-600 text-center mt-1">For barangay officials and employees</p>
+    </div>
+
     <form method="POST" action="{{ route('register.official') }}">
         @csrf
 
-        <div class="mb-4 p-4 bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-md">
-            <p class="text-sm text-white dark:text-blue-200">
-                <strong>Official Registration</strong><br>
-                This form is for barangay officials only. You need a valid registration code to proceed.
+        <div class="mb-3 p-3 bg-blue-50 border border-blue-200 rounded-md">
+            <p class="text-xs text-blue-800">
+                <strong>Note:</strong> Valid registration code required. Contact admin if you don't have one.
             </p>
         </div>
 
@@ -24,7 +28,7 @@
         <div class="mt-4">
             <x-input-label for="official_id" :value="__('Select Your Position')" />
             <select id="official_id" name="official_id" required
-                    class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                    class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
                 <option value="">Select your official position</option>
                 @foreach($officials as $official)
                     <option value="{{ $official->official_id }}" {{ old('official_id') == $official->official_id ? 'selected' : '' }}>
@@ -39,7 +43,7 @@
             <x-input-label for="registration_code" :value="__('Registration Code')" />
             <x-text-input id="registration_code" class="block mt-1 w-full" type="password" name="registration_code" required />
             <x-input-error :messages="$errors->get('registration_code')" class="mt-2" />
-            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Contact the admin for the registration code</p>
+            <p class="text-xs text-gray-500 mt-1">Contact the admin for the registration code</p>
         </div>
 
         <div class="mt-4">
@@ -60,7 +64,7 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
+            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" href="{{ route('login') }}">
                 {{ __('Already registered?') }}
             </a>
 
@@ -69,10 +73,13 @@
             </x-primary-button>
         </div>
 
-        <div class="mt-4 text-center">
-            <a class="text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100" href="{{ route('register') }}">
-                Register as Resident instead
-            </a>
+        <div class="mt-4 pt-4 border-t border-gray-200 text-center">
+            <p class="text-xs text-gray-600">
+                Resident?
+                <a href="{{ route('register') }}" class="text-blue-600 hover:text-blue-800 font-medium">
+                    Register here
+                </a>
+            </p>
         </div>
     </form>
 </x-guest-layout>

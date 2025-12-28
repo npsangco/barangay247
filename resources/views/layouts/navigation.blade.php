@@ -5,8 +5,9 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
-                        <span class="text-xl font-bold text-gray-800 dark:text-gray-200">Barangay 24/7</span>
+                    <a href="{{ route('dashboard') }}" class="flex flex-col">
+                        <span class="text-xl font-bold text-gray-800">Barangay 24/7</span>
+                        <span class="text-xs text-gray-600">Your Community Information Portal</span>
                     </a>
                 </div>
 

@@ -1,4 +1,9 @@
 <x-guest-layout>
+    <div class="mb-4">
+        <h2 class="text-xl font-bold text-gray-900 text-center">Register as Resident</h2>
+        <p class="text-xs text-gray-600 text-center mt-1">Create your account to access barangay services</p>
+    </div>
+
     <form method="POST" action="{{ route('register') }}">
         @csrf
 
@@ -17,7 +22,7 @@
         <div class="mt-4">
             <x-input-label for="gender" :value="__('Gender')" />
             <select id="gender" name="gender" required
-                    class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                    class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
                 <option value="">Select Gender</option>
                 <option value="Male" {{ old('gender') == 'Male' ? 'selected' : '' }}>Male</option>
                 <option value="Female" {{ old('gender') == 'Female' ? 'selected' : '' }}>Female</option>
@@ -72,13 +77,22 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
+            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500" href="{{ route('login') }}">
                 {{ __('Already registered?') }}
             </a>
 
             <x-primary-button class="ms-4">
                 {{ __('Register') }}
             </x-primary-button>
+        </div>
+
+        <div class="mt-4 pt-4 border-t border-gray-200 text-center">
+            <p class="text-xs text-gray-600">
+                Barangay official?
+                <a href="{{ route('register.official') }}" class="text-blue-600 hover:text-blue-800 font-medium">
+                    Register here
+                </a>
+            </p>
         </div>
     </form>
 </x-guest-layout>
