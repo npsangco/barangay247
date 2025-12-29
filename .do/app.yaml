@@ -19,7 +19,7 @@ spec:
     - key: APP_ENV
       value: production
     - key: APP_DEBUG
-      value: "false"
+      value: "true"
     - key: APP_KEY
       value: base64:PsX56oIKKEz3DxQyBLFyhWTS3V4VVHudSooXEa9GroY=
     - key: LOG_CHANNEL
