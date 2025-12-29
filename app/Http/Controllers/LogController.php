@@ -17,7 +17,8 @@ class LogController extends Controller
                 ->orWhere('module', 'like', "%$search%")
                 ->orWhere('description', 'like', "%$search%")
                 ->orderBy('created_at', 'desc')
-                ->paginate(50);
+                ->paginate(50)
+                ->appends(['search' => $search]);
         } else {
             $logs = Log::with('user')->orderBy('created_at', 'desc')->paginate(50);
         }
