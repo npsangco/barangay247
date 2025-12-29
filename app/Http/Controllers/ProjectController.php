@@ -33,7 +33,7 @@ class ProjectController extends Controller
             'start_date' => $validated['start_date'],
             'end_date' => $validated['end_date'],
             'project_status' => $validated['project_status'],
-            'image_path' => $request->hasFile('project_image') ? $request->file('project_image')->store('project_images', 'public') : null,
+            'image_path' => $request->hasFile('project_image') ? $request->file('project_image')->store('project_images', 'r2') : null,
         ]);
 
         log_activity('Create', 'Projects', 'Created project: ' . $project->project_name);
@@ -62,7 +62,7 @@ class ProjectController extends Controller
         ];
 
         if ($request->hasFile('project_image')) {
-            $updateData['image_path'] = $request->file('project_image')->store('project_images', 'public');
+            $updateData['image_path'] = $request->file('project_image')->store('project_images', 'r2');
         }
 
         $project->update($updateData);

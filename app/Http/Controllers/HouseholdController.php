@@ -22,7 +22,7 @@ class HouseholdController extends Controller
             'pic' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        $imagePath = $request->hasFile('pic') ? $request->file('pic')->store('household_images', 'public') : null;
+        $imagePath = $request->hasFile('pic') ? $request->file('pic')->store('household_images', 'r2') : null;
 
         $household = Households::create([
             'household_head' => $validated['head'],
@@ -80,7 +80,7 @@ class HouseholdController extends Controller
         ];
 
         if ($request->hasFile('pic')) {
-            $updateData['image_path'] = $request->file('pic')->store('household_images', 'public');
+            $updateData['image_path'] = $request->file('pic')->store('household_images', 'r2');
         }
 
         $household->update($updateData);
