@@ -12,7 +12,7 @@ class Households extends Model
 
     protected $table = "tbl_households";
 
-    protected $primarykey = 'household_id';
+    protected $primaryKey = 'household_id';
 
     protected $fillable = [
         'household_head',
