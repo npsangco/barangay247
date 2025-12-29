@@ -32,13 +32,22 @@ services:
       - key: DB_CONNECTION
         value: mysql
       - key: DB_HOST
+        value: ${db.HOSTNAME}
         scope: RUN_AND_BUILD_TIME
       - key: DB_PORT
-        value: "3306"
+        value: ${db.PORT}
       - key: DB_DATABASE
+        value: ${db.DATABASE}
         scope: RUN_AND_BUILD_TIME
       - key: DB_USERNAME
+        value: ${db.USERNAME}
         scope: RUN_AND_BUILD_TIME
       - key: DB_PASSWORD
+        value: ${db.PASSWORD}
         type: SECRET
         scope: RUN_AND_BUILD_TIME
+databases:
+  - name: db
+    engine: MYSQL
+    version: "8"
+    production: false
