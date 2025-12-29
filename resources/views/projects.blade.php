@@ -94,19 +94,11 @@
                                     </td>
                                     <td>
                                         <div class="d-flex gap-2">
-                                            <button
-                                                onclick="openModal('projectModal', 'edit', {
-                                                    id: {{ $project->project_id }},
-                                                    project_name: '{{ $project->project_name }}',
-                                                    project_description: '{{ addslashes($project->project_description) }}',
-                                                    start_date: '{{ $project->start_date }}',
-                                                    end_date: '{{ $project->end_date }}',
-                                                    project_status: '{{ $project->project_status }}'
-                                                })"
+                                            <a href="{{ route('projects.edit', $project->project_id) }}"
                                                 class="btn btn-sm d-inline-flex align-items-center" style="color: var(--primary);">
                                                 <i class="bi bi-pencil-square me-1"></i>
                                                 Edit
-                                            </button>
+                                            </a>
                                             <form action="{{ route('projects.delete', $project->project_id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this project?');">
                                                 @csrf
                                                 <button type="submit" class="btn btn-sm d-inline-flex align-items-center" style="color: #e76f51;">
