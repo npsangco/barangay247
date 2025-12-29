@@ -28,8 +28,8 @@
         <div class="mt-4">
             <x-input-label for="official_id" :value="__('Select Your Position')" />
             <select id="official_id" name="official_id" required
-                    class="block mt-1 w-full rounded-md shadow-sm" style="border-color: #90AB8B;" 
-                    onfocus="this.style.borderColor='#5A7863'; this.style.boxShadow='0 0 0 3px rgba(144, 171, 139, 0.2)';" 
+                    class="block mt-1 w-full rounded-md shadow-sm" style="border-color: #90AB8B;"
+                    onfocus="this.style.borderColor='#5A7863'; this.style.boxShadow='0 0 0 3px rgba(144, 171, 139, 0.2)';"
                     onblur="this.style.borderColor='#90AB8B'; this.style.boxShadow='';">
                 <option value="">Select your official position</option>
                 @foreach($officials as $official)
@@ -66,10 +66,10 @@
         </div>
 
         <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2" 
-               style="color: #5A7863;" 
-               onmouseover="this.style.color='#3B4953';" 
-               onmouseout="this.style.color='#5A7863';" 
+            <a class="underline text-sm rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2"
+               style="color: #5A7863;"
+               onmouseover="this.style.color='#3B4953';"
+               onmouseout="this.style.color='#5A7863';"
                href="{{ route('login') }}">
                 {{ __('Already registered?') }}
             </a>
@@ -82,9 +82,9 @@
         <div class="mt-4 pt-4 text-center" style="border-top: 1px solid #EBF4DD;">
             <p class="text-xs" style="color: #5A7863;">
                 Resident?
-                <a href="{{ route('register') }}" class="font-medium" 
-                   style="color: #5A7863;" 
-                   onmouseover="this.style.color='#3B4953';" 
+                <a href="{{ route('register') }}" class="font-medium"
+                   style="color: #5A7863;"
+                   onmouseover="this.style.color='#3B4953';"
                    onmouseout="this.style.color='#5A7863';">
                     Register here
                 </a>
