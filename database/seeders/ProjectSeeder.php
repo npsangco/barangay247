@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Project; 
+use App\Models\Project;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -18,7 +18,7 @@ class ProjectSeeder extends Seeder
             'project_description' => 'To help with floods',
             'start_date' => '2025-10-25',
             'end_date' => '2026-10-25',
-            'project_status' => 'Pending: Project has not been started',
+            'project_status' => 'Pending',
         ]);
 
         Project::create([
@@ -26,7 +26,7 @@ class ProjectSeeder extends Seeder
             'project_description' => 'A digital record-keeping system for patient data and medical services within the barangay.',
             'start_date' => '2025-11-01',
             'end_date' => '2026-03-30',
-            'project_status' => 'Ongoing: Development and testing phase',
+            'project_status' => 'Ongoing',
         ]);
 
         Project::create([
@@ -34,7 +34,7 @@ class ProjectSeeder extends Seeder
             'project_description' => 'Implementation of IoT-enabled bins to monitor and optimize garbage collection schedules.',
             'start_date' => '2025-09-15',
             'end_date' => '2026-02-15',
-            'project_status' => 'Pending: Awaiting approval from city officials',
+            'project_status' => 'Pending',
         ]);
 
         Project::create([
@@ -42,7 +42,7 @@ class ProjectSeeder extends Seeder
             'project_description' => 'Providing free public Wi-Fi access to underserved barangay areas through mesh networking.',
             'start_date' => '2025-10-10',
             'end_date' => '2026-04-10',
-            'project_status' => 'Completed: Fully deployed and operational',
+            'project_status' => 'Completed',
         ]);
 
         Project::create([
@@ -50,7 +50,7 @@ class ProjectSeeder extends Seeder
             'project_description' => 'An app for real-time reporting and coordination during natural disasters.',
             'start_date' => '2025-08-01',
             'end_date' => '2026-01-15',
-            'project_status' => 'Ongoing: User testing and feedback collection phase',
+            'project_status' => 'Ongoing',
         ]);
 
         Project::create([
@@ -58,7 +58,7 @@ class ProjectSeeder extends Seeder
             'project_description' => 'Encouraging residents to grow food in small spaces using vertical gardening techniques.',
             'start_date' => '2025-07-20',
             'end_date' => '2026-06-20',
-            'project_status' => 'Pending: Project has not been started',
+            'project_status' => 'Pending',
         ]);
 
 
