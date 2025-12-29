@@ -1,0 +1,47 @@
+name: barangay247
+services:
+  - name: web
+    github:
+      repo: npsangco/barangay247
+      branch: main
+      deploy_on_push: true
+    dockerfile_path: Dockerfile
+    http_port: 80
+    instance_count: 1
+    instance_size_slug: basic-xxs
+    routes:
+      - path: /
+    health_check:
+      http_path: /
+    envs:
+      - key: APP_NAME
+        value: "Barangay 24/7"
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "false"
+      - key: APP_KEY
+        value: base64:PsX56oIKKEz3DxQyBLFyhWTS3V4VVHudSooXEa9GroY=
+      - key: APP_URL
+        value: ${APP_URL}
+      - key: LOG_CHANNEL
+        value: errorlog
+      - key: SESSION_DRIVER
+        value: cookie
+      - key: CACHE_DRIVER
+        value: file
+      - key: QUEUE_CONNECTION
+        value: sync
+      - key: DB_CONNECTION
+        value: mysql
+      - key: DB_HOST
+        scope: RUN_AND_BUILD_TIME
+      - key: DB_PORT
+        value: "3306"
+      - key: DB_DATABASE
+        scope: RUN_AND_BUILD_TIME
+      - key: DB_USERNAME
+        scope: RUN_AND_BUILD_TIME
+      - key: DB_PASSWORD
+        type: SECRET
+        scope: RUN_AND_BUILD_TIME
