@@ -20,8 +20,14 @@
         </div>
 
         <div class="mb-3">
+            <label for="username" class="form-label fw-semibold" style="color: #3B4953;">{{ __('Username') }}</label>
+            <input id="username" class="form-control" type="text" name="username" value="{{ old('username') }}" required autocomplete="username">
+            <x-input-error :messages="$errors->get('username')" class="mt-2" />
+        </div>
+
+        <div class="mb-3">
             <label for="email" class="form-label fw-semibold" style="color: #3B4953;">{{ __('Email') }}</label>
-            <input id="email" class="form-control" type="email" name="email" value="{{ old('email') }}" required autocomplete="username">
+            <input id="email" class="form-control" type="email" name="email" value="{{ old('email') }}" required autocomplete="email">
             <x-input-error :messages="$errors->get('email')" class="mt-2" />
         </div>
 
