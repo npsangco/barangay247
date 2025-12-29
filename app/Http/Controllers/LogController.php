@@ -17,13 +17,12 @@ class LogController extends Controller
                 ->orWhere('module', 'like', "%$search%")
                 ->orWhere('description', 'like', "%$search%")
                 ->orderBy('created_at', 'desc')
-                ->paginate(50)
-                ->appends(['search' => $search]);
+                ->paginate(50);
         } else {
             $logs = Log::with('user')->orderBy('created_at', 'desc')->paginate(50);
         }
 
-        return view('logs.activity', compact('logs'));
+        return view('logs.index', compact('logs'));
     }
 
     public function destroy($id)
