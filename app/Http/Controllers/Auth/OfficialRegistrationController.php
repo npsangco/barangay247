@@ -31,7 +31,7 @@ class OfficialRegistrationController extends Controller
             'registration_code' => ['required', 'string'],
         ]);
 
-        if ($request->registration_code !== config('app.official_registration_code')) {
+        if ($request->registration_code !== 'BRGY2025') {
             return back()->withErrors(['registration_code' => 'Invalid registration code.'])->withInput();
         }
 
