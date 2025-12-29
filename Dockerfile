@@ -1,6 +1,6 @@
 FROM php:8.2-apache
 
-# Install system dependencies
+# Install system dependencies including Node.js
 RUN apt-get update && apt-get install -y \
     git \
     curl \
@@ -9,7 +9,9 @@ RUN apt-get update && apt-get install -y \
     libxml2-dev \
     zip \
     unzip \
-    libzip-dev
+    libzip-dev \
+    nodejs \
+    npm
 
 # Clear cache
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
@@ -26,8 +28,11 @@ WORKDIR /var/www/html
 # Copy application files
 COPY . /var/www/html
 
-# Install dependencies
+# Install PHP dependencies
 RUN composer install --optimize-autoloader --no-dev
+
+# Install Node dependencies and build Vite assets
+RUN npm install && npm run build
 
 # Create storage directories
 RUN mkdir -p storage/framework/{sessions,views,cache} \
