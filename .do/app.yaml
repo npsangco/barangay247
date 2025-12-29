@@ -22,6 +22,10 @@ spec:
       value: "true"
     - key: APP_KEY
       value: base64:PsX56oIKKEz3DxQyBLFyhWTS3V4VVHudSooXEa9GroY=
+    - key: APP_URL
+      value: https://barangaymanagement-o9k6h.ondigitalocean.app
+    - key: FORCE_HTTPS
+      value: "true"
     - key: LOG_CHANNEL
       value: errorlog
     - key: SESSION_DRIVER
