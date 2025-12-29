@@ -1,0 +1,16 @@
+spec:
+  name: barangay247
+  services:
+  - name: web
+    dockerfile_path: Dockerfile
+    github:
+      repo: npsangco/barangay247
+      branch: main
+      deploy_on_push: true
+    http_port: 80
+  databases:
+  - engine: MYSQL
+    name: db
+    num_nodes: 1
+    size: db-s-1vcpu-1gb
+    version: "8"
