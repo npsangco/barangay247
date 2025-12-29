@@ -6,6 +6,9 @@ spec:
       repo: npsangco/barangay247
       branch: main
       deploy_on_push: true
+    buildpacks:
+    - php
+    - nodejs
     build_command: composer install --no-dev --optimize-autoloader && npm install && npm run build
     run_command: php artisan config:cache && php artisan route:cache && php artisan view:cache && php artisan migrate --force && php artisan serve --host=0.0.0.0 --port=8080
     http_port: 8080
