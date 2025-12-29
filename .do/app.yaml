@@ -1,11 +1,8 @@
 name: barangay247
 services:
   - name: web
-    github:
-      repo: npsangco/barangay247
-      branch: main
-      deploy_on_push: true
     dockerfile_path: Dockerfile
+    source_dir: /
     http_port: 80
     instance_count: 1
     instance_size_slug: basic-xxs
