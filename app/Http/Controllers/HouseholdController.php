@@ -9,7 +9,7 @@ class HouseholdController extends Controller
 {
     public function create()
     {
-        return view('householdForm');
+        return view('forms.households-create');
     }
 
     public function register(Request $request)
@@ -52,6 +52,12 @@ class HouseholdController extends Controller
         }
 
         return view('households', compact('households'));
+    }
+
+    public function edit($id)
+    {
+        $household = Households::findOrFail($id);
+        return view('forms.households-edit', compact('household'));
     }
 
     public function update(Request $request, $id)

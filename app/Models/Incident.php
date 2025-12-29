@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Incident extends Model
 {
+    use SoftDeletes;
+
     protected $table =  "tbl_incidents";
     protected $primaryKey = 'report_id';
 
@@ -20,17 +23,11 @@ class Incident extends Model
 
     public $timestamps = true;
 
-    /**
-     * Get the resident that reported the incident
-     */
     public function resident()
     {
         return $this->belongsTo(Resident::class, 'resident_id', 'resident_id');
     }
 
-    /**
-     * Get the official assigned to the incident
-     */
     public function official()
     {
         return $this->belongsTo(Official::class, 'official_id', 'official_id');

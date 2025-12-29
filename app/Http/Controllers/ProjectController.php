@@ -9,7 +9,12 @@ class ProjectController extends Controller
 {
 
     public function create(){
-        return view('profile');
+        return view('forms.projects-create');
+    }
+
+    public function edit($id){
+        $project = Project::findOrFail($id);
+        return view('forms.projects-edit', compact('project'));
     }
 
     public function store(Request $request){

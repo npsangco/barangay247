@@ -24,6 +24,11 @@ class OfficialController extends Controller
         return view('officials', compact('officials'));
     }
 
+    public function create()
+    {
+        return view('forms.officials-create');
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -45,6 +50,12 @@ class OfficialController extends Controller
         log_activity('Create', 'Officials', 'Created official: ' . $official->official_name);
 
         return redirect()->route('officials.index')->with('success', 'Official created successfully.');
+    }
+
+    public function edit($id)
+    {
+        $official = Official::findOrFail($id);
+        return view('forms.officials-edit', compact('official'));
     }
 
     public function update(Request $request, $id)

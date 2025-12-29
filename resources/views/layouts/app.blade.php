@@ -7,39 +7,108 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 
-        <!-- Scripts -->
+        <style>
+            :root {
+                --bg-primary: #F5F2F2;
+                --bg-secondary: #EBF4DD;
+                --accent: #90AB8B;
+                --primary: #5A7863;
+                --text: #3B4953;
+            }
+            body {
+                background-color: var(--bg-primary);
+                color: var(--text);
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+            }
+            .btn-primary {
+                background-color: var(--primary);
+                border-color: var(--primary);
+            }
+            .btn-primary:hover {
+                background-color: var(--accent);
+                border-color: var(--accent);
+            }
+            .btn-outline-primary {
+                color: var(--primary);
+                border-color: var(--primary);
+            }
+            .btn-outline-primary:hover {
+                background-color: var(--primary);
+                border-color: var(--primary);
+            }
+            .btn-secondary {
+                background-color: var(--text);
+                border-color: var(--text);
+            }
+            .btn-secondary:hover {
+                background-color: var(--accent);
+                border-color: var(--accent);
+            }
+            .badge-primary {
+                background-color: var(--accent);
+                color: white;
+            }
+            .text-primary {
+                color: var(--primary) !important;
+            }
+            .bg-primary {
+                background-color: var(--primary) !important;
+            }
+            .border-primary {
+                border-color: var(--accent) !important;
+            }
+            .card {
+                border: none;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+                background-color: white;
+            }
+            .card-header {
+                background-color: var(--bg-secondary);
+                border-bottom: 2px solid var(--accent);
+                color: var(--text);
+            }
+            .form-control:focus,
+            .form-select:focus {
+                border-color: var(--accent);
+                box-shadow: 0 0 0 0.25rem rgba(144, 171, 139, 0.25);
+            }
+            .alert-info {
+                background-color: var(--bg-secondary);
+                color: var(--text);
+                border-color: var(--accent);
+            }
+        </style>
+
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
-    <body class="font-sans antialiased">
-        <div class="min-h-screen bg-gray-100 flex flex-col">
-            @include('layouts.navigation')
+    <body>
+        @include('layouts.navigation')
 
-            <!-- Page Heading -->
-            @isset($header)
-                <header class="bg-white shadow">
-                    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-                        {{ $header }}
-                    </div>
-                </header>
-            @endisset
-
-            <!-- Page Content -->
-            <main class="flex-1">
-                {{ $slot }}
-            </main>
-
-            <!-- Footer -->
-            <footer class="bg-white border-t border-gray-200 mt-auto">
-                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                    <p class="text-center text-gray-600 text-sm">
-                        &copy; {{ date('Y') }} 4ITH Final Project Group 1. All rights reserved.
-                    </p>
+        @isset($header)
+            <header class="bg-white shadow-sm py-3">
+                <div class="container">
+                    {{ $header }}
                 </div>
-            </footer>
-        </div>
+            </header>
+        @endisset
+
+        <main class="py-4">
+            {{ $slot }}
+        </main>
+
+        <footer class="py-4 mt-auto">
+            <div class="container">
+                <p class="text-center text-muted mb-0">
+                    &copy; {{ date('Y') }} 4ITH Final Project Group 1. All rights reserved.
+                </p>
+            </div>
+        </footer>
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>

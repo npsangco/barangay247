@@ -24,6 +24,11 @@ class ResidentController extends Controller
         return view('residents', compact('residents'));
     }
 
+    public function create()
+    {
+        return view('forms.residents-create');
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -45,6 +50,12 @@ class ResidentController extends Controller
         log_activity('Create', 'Residents', 'Created resident: ' . $resident->resident_name);
 
         return redirect()->route('residents.index')->with('success', 'Resident created successfully.');
+    }
+
+    public function edit($id)
+    {
+        $resident = Resident::findOrFail($id);
+        return view('forms.residents-edit', compact('resident'));
     }
 
     public function update(Request $request, $id)

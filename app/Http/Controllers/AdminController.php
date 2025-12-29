@@ -103,7 +103,7 @@ class AdminController extends Controller
 
     public function showIncident($id)
     {
-        $incident = Incident::with('resident', 'official')->findOrFail($id);
+        $incident = Incident::with(['resident', 'official'])->findOrFail($id);
         return view('userUI.show-incident', compact('incident'));
     }
 

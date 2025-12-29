@@ -33,6 +33,13 @@ class IncidentController extends Controller
         return view('incidents', compact('incidents', 'residents', 'officials'));
     }
 
+    public function create()
+    {
+        $residents = Resident::all();
+        $officials = Official::all();
+        return view('forms.incidents-create', compact('residents', 'officials'));
+    }
+
     public function store(Request $request)
     {
         $validated = $request->validate([
@@ -48,6 +55,14 @@ class IncidentController extends Controller
         log_activity('Create', 'Incidents', 'Created incident report: ' . $incident->report_id);
 
         return redirect()->route('incidents.index')->with('success', 'Incident reported successfully.');
+    }
+
+    public function edit($id)
+    {
+        $incident = Incident::findOrFail($id);
+        $residents = Resident::all();
+        $officials = Official::all();
+        return view('forms.incidents-edit', compact('incident', 'residents', 'officials'));
     }
 
     public function update(Request $request, $id)
