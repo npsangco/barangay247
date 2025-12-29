@@ -86,7 +86,7 @@
                                     </td>
                                     <td>
                                         @if($project->image_path)
-                                            <img src="{{ asset('storage/'.$project->image_path) }}" alt="Project Image"
+                                            <img src="{{ $project->image_url }}" alt="Project Image"
                                                  class="rounded" style="height: 64px; width: 64px; object-fit: cover;">
                                         @else
                                             <span style="color: var(--text);">No Image</span>

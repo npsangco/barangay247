@@ -75,7 +75,7 @@
                                     <td>{{ $household->number_of_members }}</td>
                                     <td>
                                         @if($household->image_path)
-                                            <img src="{{ asset('storage/'.$household->image_path) }}" alt="Household Image"
+                                            <img src="{{ $household->image_url }}" alt="Household Image"
                                                  class="rounded" style="height: 64px; width: 64px; object-fit: cover;">
                                         @else
                                             <span style="color: var(--text);">No Image</span>

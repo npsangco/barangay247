@@ -22,7 +22,7 @@
                 <div class="col">
                     <div class="card h-100">
                         @if($project->image_path)
-                            <img src="{{ asset('storage/' . $project->image_path) }}"
+                            <img src="{{ $project->image_url }}"
                                  class="card-img-top" alt="{{ $project->project_name }}"
                                  style="height: 200px; object-fit: cover;">
                         @else

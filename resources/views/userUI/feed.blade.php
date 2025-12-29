@@ -41,7 +41,7 @@
                         </h4>
                         <p class="text-muted mb-2">{{ Str::limit($project->project_description, 200) }}</p>
                         @if($project->image_path)
-                            <img src="{{ asset('storage/' . $project->image_path) }}"
+                            <img src="{{ $project->image_url }}"
                                  alt="{{ $project->project_name }}"
                                  class="img-fluid rounded mt-2" style="max-height: 250px; object-fit: cover;">
                         @endif

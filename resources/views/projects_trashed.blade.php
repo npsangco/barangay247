@@ -65,7 +65,7 @@
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm">
                                         @if($project->image_path)
-                                            <img src="{{ asset('storage/'.$project->image_path) }}" alt="Project Image"
+                                            <img src="{{ $project->image_url }}" alt="Project Image"
                                                  class="h-20 w-20 object-cover rounded">
                                         @else
                                             <span class="text-gray-500 dark:text-gray-400">No Image</span>

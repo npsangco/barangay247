@@ -23,4 +23,12 @@ class Households extends Model
     ];
 
     public $timestamps = true;
+
+    public function getImageUrlAttribute()
+    {
+        if (!$this->image_path) {
+            return null;
+        }
+        return \Storage::disk('r2')->url($this->image_path);
+    }
 }

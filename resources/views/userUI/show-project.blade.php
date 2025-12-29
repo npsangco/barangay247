@@ -11,7 +11,7 @@
     <div class="container">
         @if($project->image_path)
             <div class="mb-4">
-                <img src="{{ asset('storage/' . $project->image_path) }}"
+                <img src="{{ $project->image_url }}"
                      alt="{{ $project->project_name }}"
                      class="img-fluid rounded shadow" style="max-height: 400px; width: 100%; object-fit: cover;">
             </div>
